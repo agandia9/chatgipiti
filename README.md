@@ -1,52 +1,50 @@
 # minichatgipiti
 
-Chat frontend built with React + TypeScript + Vite. Connects to a separate backend API that handles AI model calls.
+Chat app with React frontend + Node.js backend powered by Azure OpenAI (Foundry).
+
+## Structure
+
+```
+frontend/   — React + TypeScript + Vite
+backend/    — Express + OpenAI SDK
+```
 
 ## Setup
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
+### Backend
 
-2. Copy the environment file and configure it:
-   ```bash
-   cp .env.example .env
-   ```
+```bash
+cd backend
+cp .env.example .env   # fill in your Azure OpenAI credentials
+npm install
+node src/server.js
+```
 
-3. Edit `.env` and set the URL of your backend:
-   ```
-   VITE_API_URL=http://localhost:3001
-   ```
+### Frontend
 
-4. Start the dev server:
-   ```bash
-   npm run dev
-   ```
+```bash
+cd frontend
+cp .env.example .env   # set VITE_API_URL if needed
+npm install
+npm run dev
+```
 
-## Backend
+## Environment variables
 
-This frontend expects a backend running at `VITE_API_URL` with two endpoints:
+### `backend/.env`
 
-- `POST /chat` — returns a JSON response
-- `POST /chat-stream` — returns a Server-Sent Events stream
-
-Both endpoints accept `{ messages: Message[] }` in the request body.
-
-## Scripts
-
-| Command | Description |
+| Variable | Description |
 |---|---|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
+| `AZURE_OPENAI_ENDPOINT` | Azure OpenAI endpoint URL |
+| `AZURE_OPENAI_KEY` | API key |
+| `AZURE_OPENAI_DEPLOYMENT` | Model deployment name (e.g. `gpt-4.1-mini`) |
 
----
+### `frontend/.env`
 
-<!-- Original Vite template notes below -->
+| Variable | Description |
+|---|---|
+| `VITE_API_URL` | Backend URL (default: `http://localhost:3001`) |
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
 
