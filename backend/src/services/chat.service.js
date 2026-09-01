@@ -26,6 +26,8 @@ export async function generateResponseStream(messages, onChunk) {
 
   await stream.finalResponse();
 }
+
+export async function generateResponse(messages) {
     try {
     const conversation = messages
       .map(msg => `${msg.role}: ${msg.content}`)
