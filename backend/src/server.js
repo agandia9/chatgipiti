@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { generateResponse } from "./services/chat.service.js";
+import { generateResponse, generateResponseStream } from "./services/chat.service.js";
 
 const app = express();
 
@@ -29,40 +29,19 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-// app.post("/chat-stream", async (req, res) => {
-//     res.setHeader(
-//       "Content-Type",
-//       "text/event-stream"
-//     );
+app.post("/chat-stream", async (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
 
-//     res.setHeader(
-//       "Cache-Control",
-//       "no-cache"
-//     );
-
-//     res.setHeader(
-//       "Connection",
-//       "keep-alive"
-//     );
-
-//     const { messages } = req.body;
-//     const conversation = messages.map(msg => `${msg.role}: ${msg.content}`).join("\n");
-
-//     const stream = client.responses.stream({
-//       model: process.env.AZURE_OPENAI_DEPLOYMENT,
-//       input: conversation,
-//     });
-
-//     stream.on(
-//       "response.output_text.delta",
-//       event => {
-//         res.write(
-//           `data: ${event.delta}\n\n`
-//         );
-//       }
-//     );
-
-//     await stream.finalResponse();
-
-//     res.end();
-// });
+  try {
+    await generateResponseStream(req.body.messages, chunk => {
+      res.write(`data: ${chunk}\n\n`);
+    });
+  } catch (error) {
+    console.error(error);
+    res.write(`data: [ERROR] ${error.message}\n\n`);
+  } finally {
+    res.end();
+  }
+});

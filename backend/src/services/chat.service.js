@@ -8,7 +8,24 @@ const client = new OpenAI({
   apiKey: process.env.AZURE_OPENAI_KEY,
 });
 
-export async function generateResponse(messages) {
+export async function generateResponseStream(messages, onChunk) {
+  const conversation = messages
+    .map(msg => `${msg.role}: ${msg.content}`)
+    .join("\n");
+
+  const stream = client.responses.stream({
+    model: process.env.AZURE_OPENAI_DEPLOYMENT,
+    instructions:
+      "Eres un asistente útil y servicial. Con amplia experiencia en desarrollo de software y programación. Responde a las preguntas de manera clara y concisa.",
+    input: conversation,
+  });
+
+  stream.on("response.output_text.delta", event => {
+    onChunk(event.delta);
+  });
+
+  await stream.finalResponse();
+}
     try {
     const conversation = messages
       .map(msg => `${msg.role}: ${msg.content}`)
