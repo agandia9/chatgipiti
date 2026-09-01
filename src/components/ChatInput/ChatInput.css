@@ -1,0 +1,14 @@
+.Chat-input {
+    display: flex;
+    padding: 5%;
+    max-width: 100%;
+}
+
+.Chat-input input {
+    padding: 2%;
+    width: 100%;
+}
+
+.Chat-input button {
+    width: 100px;
+}

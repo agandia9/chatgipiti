@@ -1,0 +1,24 @@
+.Chat-messages {
+    flex: 1;
+    max-height: 500px;
+    overflow-y: scroll;
+    margin: 5% 5% 0 5%;
+    padding: 2%;
+    border-radius: 12px;
+    border: 1px solid;
+}
+
+.Chat-messages--empty {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.Chat-messages--assistant {
+    color: #6c6c71f7;
+    font-style: italic;
+}
+
+.Chat-messages--user {
+    color: #000000;
+    font-style: bold;
+}
