@@ -3,7 +3,7 @@ import type { Message } from "../../types/chat";
 import { useChatInput } from '../../hooks/useChatInput';
 
 export function ChatInput({ messages, setMessages }: { messages: Message[]; setMessages: React.Dispatch<React.SetStateAction<Message[]>> }) {
-    const { input, setInput, handleSend } = useChatInput(messages, setMessages);
+    const { input, setInput, handleSend, handleSendStream } = useChatInput(messages, setMessages);
 
     return (
         <div className="Chat-input">
@@ -14,6 +14,7 @@ export function ChatInput({ messages, setMessages }: { messages: Message[]; setM
             onChange={(e) => setInput(e.target.value)}
         />
         <button onClick={handleSend}>Send</button>
+        <button onClick={handleSendStream}>Send Stream</button>
         </div>
     );
 }

@@ -5,6 +5,7 @@ import type { Message } from '../../types/chat';
 
 vi.mock('../../services/chatApi', () => ({
   sendMessage: vi.fn().mockResolvedValue({ response: 'Mocked response' }),
+  sendMessageStream: vi.fn().mockResolvedValue(undefined),
 }));
 
 describe('ChatInput', () => {
@@ -15,10 +16,11 @@ describe('ChatInput', () => {
     setMessages.mockClear();
   });
 
-  it('renders the input and send button', () => {
+  it('renders the input, send and send stream buttons', () => {
     render(<ChatInput messages={messages} setMessages={setMessages} />);
     expect(screen.getByPlaceholderText('Type your message...')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Send' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Send Stream' })).toBeInTheDocument();
   });
 
   it('updates input value as user types', async () => {

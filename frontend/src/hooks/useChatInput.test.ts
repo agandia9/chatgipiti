@@ -5,6 +5,7 @@ import type { Message } from '../../types/chat';
 
 vi.mock('../services/chatApi', () => ({
   sendMessage: vi.fn(),
+  sendMessageStream: vi.fn(),
 }));
 
 describe('useChatInput', () => {
@@ -12,6 +13,7 @@ describe('useChatInput', () => {
 
   beforeEach(() => {
     vi.mocked(chatApi.sendMessage).mockResolvedValue({ response: 'Hello from AI' });
+    vi.mocked(chatApi.sendMessageStream).mockResolvedValue(undefined);
     setMessages.mockClear();
   });
 
@@ -53,5 +55,30 @@ describe('useChatInput', () => {
       { role: 'assistant', content: 'Hello from AI' },
     ]);
     expect(result.current.input).toBe('');
+  });
+
+  it('handleSendStream adds user + empty assistant message and clears input immediately', async () => {
+    const { result } = renderHook(() => useChatInput([], setMessages));
+
+    act(() => result.current.setInput('Stream this'));
+    await act(() => result.current.handleSendStream());
+
+    expect(setMessages).toHaveBeenCalledWith([
+      { role: 'user', content: 'Stream this' },
+      { role: 'assistant', content: '' },
+    ]);
+    expect(result.current.input).toBe('');
+  });
+
+  it('handleSendStream calls sendMessageStream with correct messages', async () => {
+    const { result } = renderHook(() => useChatInput([], setMessages));
+
+    act(() => result.current.setInput('Hello stream'));
+    await act(() => result.current.handleSendStream());
+
+    expect(chatApi.sendMessageStream).toHaveBeenCalledWith(
+      [{ role: 'user', content: 'Hello stream' }],
+      expect.any(Function)
+    );
   });
 });
