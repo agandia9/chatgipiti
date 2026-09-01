@@ -1,11 +1,12 @@
 import type { Message } from "../types/chat";
 
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
+
 export async function sendMessage(
   messages: Message[]
 ) {
-  const apiUrl = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
   const response = await fetch(
-    `${apiUrl}/chat`,
+    `${API_URL}/chat`,
     {
       method: "POST",
       headers: {
@@ -24,9 +25,8 @@ export async function sendMessageStream(
   messages: Message[],
   onChunk: (chunk: string) => void
 ) {
-  const apiUrl = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
   const response = await fetch(
-    `${apiUrl}/chat-stream`,
+    `${API_URL}/chat-stream`,
     {
       method: "POST",
       headers: {

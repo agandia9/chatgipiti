@@ -14,7 +14,6 @@ export function ChatInput({ messages, setMessages }: { messages: Message[]; setM
             onChange={(e) => setInput(e.target.value)}
         />
         <button onClick={handleSend}>Send</button>
-        {/* <button onClick={handleSendStream}>Send Stream</button> */}
         </div>
     );
 }
