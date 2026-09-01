@@ -1,6 +1,6 @@
 import './ChatInput.css';
 import type { Message } from "../../types/chat";
-import { useChatInput } from './useChatInput';
+import { useChatInput } from '../../hooks/useChatInput';
 
 export function ChatInput({ messages, setMessages }: { messages: Message[]; setMessages: React.Dispatch<React.SetStateAction<Message[]>> }) {
     const { input, setInput, handleSend } = useChatInput(messages, setMessages);

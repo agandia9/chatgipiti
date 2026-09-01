@@ -33,7 +33,7 @@ describe('ChatInput', () => {
     const input = screen.getByPlaceholderText('Type your message...');
     await userEvent.type(input, 'Hello');
     await userEvent.click(screen.getByRole('button', { name: 'Send' }));
-    expect(input).toHaveValue('');
+    await screen.findByDisplayValue('');
     expect(setMessages).toHaveBeenCalled();
   });
 });

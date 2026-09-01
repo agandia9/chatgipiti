@@ -1,9 +1,11 @@
 import { renderHook, act } from '@testing-library/react';
 import { useChatInput } from './useChatInput';
-import * as chatApi from '../../services/chatApi';
+import * as chatApi from '../services/chatApi';
 import type { Message } from '../../types/chat';
 
-vi.mock('../../services/chatApi');
+vi.mock('../services/chatApi', () => ({
+  sendMessage: vi.fn(),
+}));
 
 describe('useChatInput', () => {
   const setMessages = vi.fn();

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { sendMessage } from "../../services/chatApi";
+import { sendMessage } from "../services/chatApi";
 import type { Message } from "../../types/chat";
 
 export const useChatInput = (messages: Message[], setMessages: React.Dispatch<React.SetStateAction<Message[]>>) => {
