@@ -1,5 +1,4 @@
 import { Fragment, useState } from 'react'
-import './App.css'
 import { ChatInput } from './components/ChatInput/ChatInput';
 import { Chat } from './components/Chat/Chat';
 import type { Message } from './types/chat';
